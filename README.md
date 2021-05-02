@@ -44,4 +44,4 @@ You mark a note on the fingerboard simulator, it adds it to a list. You can copy
 
 [] Music notation format shown after each note, modify notes, and show layout
 
-[] Violin fingerboard connects to midi format with https://pub.dev/packages/flutter_midi_command, https://pub.dev/packages/midi_io, https://pub.dev/packages/flutter_midi, or https://pub.dev/packages/dart_midi
+[] Connecting Violin fingerboard to midi format with https://pub.dev/packages/flutter_midi_command, https://pub.dev/packages/midi_io, https://pub.dev/packages/flutter_midi, or https://pub.dev/packages/dart_midi
