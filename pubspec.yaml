@@ -24,9 +24,10 @@ dependencies:
   flutter:
     sdk: flutter
   
-  clipboard: any
-  tonic: any
-  flutter_launcher_icons: any
+  clipboard: 0.1.3
+  tonic: 0.2.3
+  flutter_launcher_icons: 0.9.0
+  sheet_music: 0.3.0
 
 flutter_icons:
   android: "launcher_icon"
