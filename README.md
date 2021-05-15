@@ -8,40 +8,30 @@ You mark a note on the fingerboard simulator, it adds it to a list. You can copy
 
 ### Stuff to add
 
-+ Add notes that are accessible via shifting
+Key: ⬜️ Incomplete ✅ Done
 
-+ Mark finger position on each note
+✅ Add notes that are accessible via shifting
 
-+ Add into screen from https://pub.dev/packages/intro_screen_onboarding_flutter
+✅ Mark finger position on each note
 
-+ Allow notes to have other colors
+✅ Allow notes to have other colors
 
-+ Saving notes for long-term storage via https://pub.dev/packages/get_storage
+✅ Saving notes for long-term storage via <https://pub.dev/packages/get_storage>
 
-+ Playing audio for each note via https://pub.dev/packages/just_audio
+⬜️ Playing audio for each note via <https://pub.dev/packages/just_audio>
 
-+ Show additional data from tonic https://pub.dev/packages/tonic (eg. note distance, etc)
+✅ Show additional data from tonic <https://pub.dev/packages/tonic> (eg. note distance, etc)
 
-+ Multilayout setup, add screen that shows all scales accessible
+⬜️ Multilayout setup, add screen that shows all scales accessible
 
-+ Renaming scales
+⬜️ Renaming scales
 
-+ File management for all scales
+⬜️ File management for all scales
 
-+ Flash allows some style for changing pages https://pub.dev/packages/flash
+⬜️ Add an option with the slidable for quizzing yourself <https://pub.dev/packages/quiz_view>
 
-+ Modify scales with slidable screen (provided by https://pub.dev/packages/flutter_slidable)
+⬜️ Create different question types
 
-+ Add animations https://pub.dev/packages/animations
+⬜️ Music notation format shown after each note, modify notes, and show layout
 
-+ Add an option with the slidable for quizzing yourself https://pub.dev/packages/quiz_view
-
-+ Create different question types
-
-+ Save the persistent file to user accessible place with https://pub.dev/packages/file_saver
-
-+ Open files saved to disk with https://pub.dev/packages/open_file
-
-+ Music notation format shown after each note, modify notes, and show layout
-
-+ Connecting Violin fingerboard to midi format and sheet music with https://pub.dev/packages/sheet_music
+⬜️ Connecting Violin fingerboard to midi format and sheet music with <https://pub.dev/packages/sheet_music>
