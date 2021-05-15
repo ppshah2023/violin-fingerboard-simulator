@@ -22,17 +22,17 @@ class _FingerboardState extends State<Fingerboard> {
     return Padding(
       padding: EdgeInsets.symmetric(
           vertical: MediaQuery.of(context).size.height * 0.001,
-          horizontal: MediaQuery.of(context).size.width * 0.01),
+          horizontal: MediaQuery.of(context).size.width * 0.0001),
       child: SizedBox(
-        width: MediaQuery.of(context).size.width * 0.09,
-        height: MediaQuery.of(context).size.height * 0.09,
+        width: MediaQuery.of(context).size.width * 0.05,
+        height: MediaQuery.of(context).size.height * 0.05,
         child: ElevatedButton(
           clipBehavior: Clip.antiAlias,
           style: ElevatedButton.styleFrom(
             shape: CircleBorder(),
             minimumSize: Size(
-              MediaQuery.of(context).size.width * 0.05,
-              MediaQuery.of(context).size.height * 0.05,
+              MediaQuery.of(context).size.width * 0.04,
+              MediaQuery.of(context).size.height * 0.04,
             ),
             primary: (scalePattern.contains(pitch))
                 ? Colors.deepOrange
@@ -90,13 +90,21 @@ class _FingerboardState extends State<Fingerboard> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         fingerboardTape("G3", "Open"),
-        fingerboardTape("Ab3", "L1"),
+        fingerboardTape("Ab3", "0.5"),
         fingerboardTape("A3", "1"),
-        fingerboardTape("Bb3", "L2"),
+        fingerboardTape("Bb3", "1.5"),
         fingerboardTape("B3", "2"),
         fingerboardTape("C4", "3"),
-        fingerboardTape("C#4", "H3"),
+        fingerboardTape("C#4", "3.5"),
         fingerboardTape("D4", "4"),
+        fingerboardTape("Eb4", "4.5"),
+        fingerboardTape("E4", "5"),
+        fingerboardTape("F4", "5.5"),
+        fingerboardTape("F#4", "6"),
+        fingerboardTape("G4", "7"),
+        fingerboardTape("G#4", "7.5"),
+        fingerboardTape("A4", "8"),
+        fingerboardTape("Bb4", "8.5"),
         PopupMenuButton(
           child: Center(child: Text('Copy, Paste, and Donate')),
           itemBuilder: (BuildContext context) => <PopupMenuEntry>[
