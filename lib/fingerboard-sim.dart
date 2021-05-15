@@ -9,7 +9,23 @@ class Fingerboard extends StatefulWidget {
 }
 
 class _FingerboardState extends State<Fingerboard> {
-  var scalePattern = [];
+  var scalePatternOrange = [];
+  var scalePatternBlue = [];
+
+  Color determineColor(pitch) {
+    if (scalePatternOrange.contains(pitch) &&
+        !scalePatternBlue.contains(pitch)) {
+      return Colors.deepOrange;
+    } else if (scalePatternBlue.contains(pitch) &&
+        !scalePatternOrange.contains(pitch)) {
+      return Colors.green;
+    } else if (scalePatternOrange.contains(pitch) &&
+        scalePatternBlue.contains(pitch)) {
+      return Colors.purple;
+    } else {
+      return Colors.blue;
+    }
+  }
 
   // it is optional to put in a list, IntervalDistance is not a list automatically placed within another list
   Padding fingerboardPeg(String noteName, [List intervalDistance]) {
@@ -34,18 +50,26 @@ class _FingerboardState extends State<Fingerboard> {
               MediaQuery.of(context).size.width * 0.04,
               MediaQuery.of(context).size.height * 0.04,
             ),
-            primary: (scalePattern.contains(pitch))
-                ? Colors.deepOrange
-                : Colors.blue,
+            primary: determineColor(pitch),
           ),
-          onLongPress: () {},
+          onLongPress: () {
+            setState(
+              () {
+                if (!scalePatternBlue.contains(pitch)) {
+                  scalePatternBlue.add(pitch);
+                } else {
+                  scalePatternBlue.remove(pitch);
+                }
+              },
+            );
+          },
           onPressed: () {
             setState(
               () {
-                if (!scalePattern.contains(pitch)) {
-                  scalePattern.add(pitch);
+                if (!scalePatternOrange.contains(pitch)) {
+                  scalePatternOrange.add(pitch);
                 } else {
-                  scalePattern.remove(pitch);
+                  scalePatternOrange.remove(pitch);
                 }
               },
             );
@@ -86,80 +110,92 @@ class _FingerboardState extends State<Fingerboard> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        fingerboardTape("G3", "Open"),
-        fingerboardTape("Ab3", "0.5"),
-        fingerboardTape("A3", "1"),
-        fingerboardTape("Bb3", "1.5"),
-        fingerboardTape("B3", "2"),
-        fingerboardTape("C4", "3"),
-        fingerboardTape("C#4", "3.5"),
-        fingerboardTape("D4", "4"),
-        fingerboardTape("Eb4", "4.5"),
-        fingerboardTape("E4", "5"),
-        fingerboardTape("F4", "5.5"),
-        fingerboardTape("F#4", "6"),
-        fingerboardTape("G4", "7"),
-        fingerboardTape("G#4", "7.5"),
-        fingerboardTape("A4", "8"),
-        fingerboardTape("Bb4", "8.5"),
-        PopupMenuButton(
-          child: Center(child: Text('Copy, Paste, and Donate')),
-          itemBuilder: (BuildContext context) => <PopupMenuEntry>[
-            PopupMenuItem(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () {
-                    FlutterClipboard.copy(
-                      scalePattern.toString(),
-                    );
-                  },
-                  child: Text(
-                    "To save your data, copy it to your clipboard and then paste it in another software",
+    return InteractiveViewer(
+      panEnabled: false, // Set it to false to prevent panning.
+      boundaryMargin: EdgeInsets.all(80),
+      minScale: 0.5,
+      maxScale: 4,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          fingerboardTape("G3", "Open"),
+          fingerboardTape("Ab3", "0.5"),
+          fingerboardTape("A3", "1"),
+          fingerboardTape("Bb3", "1.5"),
+          fingerboardTape("B3", "2"),
+          fingerboardTape("C4", "3"),
+          fingerboardTape("C#4", "3.5"),
+          fingerboardTape("D4", "4"),
+          fingerboardTape("Eb4", "4.5"),
+          fingerboardTape("E4", "5"),
+          fingerboardTape("F4", "5.5"),
+          fingerboardTape("F#4", "6"),
+          fingerboardTape("G4", "7"),
+          fingerboardTape("G#4", "7.5"),
+          fingerboardTape("A4", "8"),
+          fingerboardTape("Bb4", "8.5"),
+          Center(
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.1,
+              height: MediaQuery.of(context).size.height * 0.05,
+              child: PopupMenuButton(
+                child: Center(child: Text('Copy, Paste, and Donate')),
+                itemBuilder: (BuildContext context) => <PopupMenuEntry>[
+                  PopupMenuItem(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          FlutterClipboard.copy(
+                            scalePatternOrange.toString(),
+                          );
+                        },
+                        child: Text(
+                          "To save your data, copy it to your clipboard and then paste it in another software",
+                        ),
+                      ),
+                    ),
                   ),
-                ),
+                  PopupMenuItem(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async* {
+                          var x = await FlutterClipboard.paste();
+                          x = json.decode(x);
+                          for (var i = 0; i < x.length; i++) {
+                            var z = tn.Pitch.parse(x[i]);
+                            if (!scalePatternOrange.contains(z)) {
+                              scalePatternOrange.add(z);
+                            }
+                          }
+                        },
+                        child: Text(
+                          "To open prior saved data, copy it to your clipboard and then press this button",
+                        ),
+                      ),
+                    ),
+                  ),
+                  PopupMenuItem(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: ElevatedButton(
+                        onPressed: () async* {
+                          FlutterClipboard.copy(
+                              "'https://www.patreon.com/pranitsh/'");
+                        },
+                        child: Text(
+                          "Donations would be great for you and me: I always will reinvest what I get into improving, benefitting you later on when I hit it big.\nI copied my patreon link to your clipboard, you can paste it into your preferred browser.",
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
-            PopupMenuItem(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async* {
-                    var x = await FlutterClipboard.paste();
-                    x = json.decode(x);
-                    for (var i = 0; i < x.length; i++) {
-                      var z = tn.Pitch.parse(x[i]);
-                      if (!scalePattern.contains(z)) {
-                        scalePattern.add(z);
-                      }
-                    }
-                  },
-                  child: Text(
-                    "To open prior saved data, copy it to your clipboard and then press this button",
-                  ),
-                ),
-              ),
-            ),
-            PopupMenuItem(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                  onPressed: () async* {
-                    FlutterClipboard.copy(
-                        "'https://www.patreon.com/pranitsh/'");
-                  },
-                  child: Text(
-                    "Donations would be great for you and me: I always will reinvest what I get into improving, benefitting you later on when I hit it big.\nI copied my patreon link to your clipboard, you can paste it into your preferred browser.",
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ],
+          ),
+        ],
+      ),
     );
   }
 }
