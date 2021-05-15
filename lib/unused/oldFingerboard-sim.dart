@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tonic/tonic.dart' as tn;
 import 'package:clipboard/clipboard.dart';
-import 'dart:convert';
+import 'package:get/get_rx/get_rx.dart';
 
 class Fingerboard extends StatefulWidget {
   @override
@@ -9,8 +9,8 @@ class Fingerboard extends StatefulWidget {
 }
 
 class _FingerboardState extends State<Fingerboard> {
-  var scalePatternOrange = [];
-  var scalePatternBlue = [];
+  var scalePatternOrange = <tn.Pitch>[].obs;
+  var scalePatternBlue = <tn.Pitch>[].obs;
 
   Color determineColor(pitch) {
     if (scalePatternOrange.contains(pitch) &&
@@ -108,6 +108,29 @@ class _FingerboardState extends State<Fingerboard> {
     );
   }
 
+  Column fingerboardBoard() {
+    return Column(
+      children: [
+        fingerboardTape("G3", "Open"),
+        fingerboardTape("Ab3", "0.5"),
+        fingerboardTape("A3", "1"),
+        fingerboardTape("Bb3", "1.5"),
+        fingerboardTape("B3", "2"),
+        fingerboardTape("C4", "3"),
+        fingerboardTape("C#4", "3.5"),
+        fingerboardTape("D4", "4"),
+        fingerboardTape("Eb4", "4.5"),
+        fingerboardTape("E4", "5"),
+        fingerboardTape("F4", "5.5"),
+        fingerboardTape("F#4", "6"),
+        fingerboardTape("G4", "7"),
+        fingerboardTape("G#4", "7.5"),
+        fingerboardTape("A4", "8"),
+        fingerboardTape("Bb4", "8.5"),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return InteractiveViewer(
@@ -118,22 +141,6 @@ class _FingerboardState extends State<Fingerboard> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          fingerboardTape("G3", "Open"),
-          fingerboardTape("Ab3", "0.5"),
-          fingerboardTape("A3", "1"),
-          fingerboardTape("Bb3", "1.5"),
-          fingerboardTape("B3", "2"),
-          fingerboardTape("C4", "3"),
-          fingerboardTape("C#4", "3.5"),
-          fingerboardTape("D4", "4"),
-          fingerboardTape("Eb4", "4.5"),
-          fingerboardTape("E4", "5"),
-          fingerboardTape("F4", "5.5"),
-          fingerboardTape("F#4", "6"),
-          fingerboardTape("G4", "7"),
-          fingerboardTape("G#4", "7.5"),
-          fingerboardTape("A4", "8"),
-          fingerboardTape("Bb4", "8.5"),
           Center(
             child: SizedBox(
               width: MediaQuery.of(context).size.width * 0.1,
@@ -152,26 +159,6 @@ class _FingerboardState extends State<Fingerboard> {
                         },
                         child: Text(
                           "To save your data, copy it to your clipboard and then paste it in another software",
-                        ),
-                      ),
-                    ),
-                  ),
-                  PopupMenuItem(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: ElevatedButton(
-                        onPressed: () async* {
-                          var x = await FlutterClipboard.paste();
-                          x = json.decode(x);
-                          for (var i = 0; i < x.length; i++) {
-                            var z = tn.Pitch.parse(x[i]);
-                            if (!scalePatternOrange.contains(z)) {
-                              scalePatternOrange.add(z);
-                            }
-                          }
-                        },
-                        child: Text(
-                          "To open prior saved data, copy it to your clipboard and then press this button",
                         ),
                       ),
                     ),
