@@ -71,7 +71,7 @@ class _FingerboardSettingsState extends State<FingerboardSettings> {
 
   Widget preferencer(String stringName, String helperText) {
     return Padding(
-      padding: EdgeInsets.all(8.0),
+      padding: EdgeInsets.all(30.0),
       child: TextFormField(
         decoration:
             InputDecoration(labelText: stringName, helperText: helperText),
