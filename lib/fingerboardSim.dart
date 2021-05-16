@@ -4,16 +4,6 @@ import 'package:tonic/tonic.dart' as tn;
 import 'package:get/state_manager.dart';
 import 'dart:math';
 
-tn.FrettedInstrument instrument = tn.FrettedInstrument(
-  name: "20",
-  stringPitches: [
-    tn.Pitch.parse("G3"),
-    tn.Pitch.parse("D4"),
-    tn.Pitch.parse("A4"),
-    tn.Pitch.parse("E5"),
-  ],
-);
-
 class Simulator extends StatefulWidget {
   @override
   _SimulatorState createState() => _SimulatorState();
@@ -21,6 +11,46 @@ class Simulator extends StatefulWidget {
 
 class _SimulatorState extends State<Simulator> {
   final datacount = GetStorage();
+  tn.FrettedInstrument instrument;
+
+  @override
+  void initState() {
+    super.initState();
+    datacount.write("String 1", 'G3');
+    datacount.write("String 2", 'D4');
+    datacount.write("String 3", 'A4');
+    datacount.write("String 4", 'E5');
+    datacount.write("NumberOfFrets", '20');
+    List pitches = [
+      datacount.read("String 1"),
+      datacount.read("String 2"),
+      datacount.read("String 3"),
+      datacount.read("String 4"),
+      datacount.read("String 5"),
+      datacount.read("String 6"),
+      datacount.read("String 7"),
+      datacount.read("String 8"),
+      datacount.read("String 9"),
+      datacount.read("String 10"),
+    ];
+    pitches.removeWhere(
+      (element) {
+        if (element == null) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+    );
+    List<tn.Pitch> x = [];
+    for (int i = 0; i < pitches.length; i++) {
+      x.add(tn.Pitch.parse(pitches[i]));
+    }
+    instrument = tn.FrettedInstrument(
+      name: datacount.read("NumberOfFrets"),
+      stringPitches: x,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,16 +134,14 @@ class _SimulatorState extends State<Simulator> {
                     onTap: () {
                       taps += 1;
                       String x = datacount.read("first");
-                      x += " " + pitch.toString();
+                      String thePitch = pitch.toString();
+                      x += " " + thePitch;
                       datacount.write("first", x);
                       print(datacount.read("first"));
                     },
                     onDoubleTap: () {
-                      String x = datacount.read("first");
-                      String thePitch = pitch.toString();
-                      x.replaceAll(thePitch, "");
-                      datacount.write("first", thePitch + " ");
-                      print(datacount.read("first"));
+                      datacount.remove("first");
+                      datacount.write("first", "");
                     },
                     child: Obx(
                       () => Tooltip(
